@@ -6,19 +6,24 @@ info:
 servers : 
 - url: https://STD22034.com
 paths:
-  /student:
+  /teacher:
     get:
-      description: Get a student
+      description: Get a Teacher
       responses:
         '200':
-          description: Student found
+          description: Teacher found
           content:
             application/json:
-              schema:
-                $ref: "#/components/schemas/student"
+              example:
+              - id: 1
+                name:   Herilala
+                cours: Base de données
+                code du cours: Données1
+                durée du cours: 4h/jour
+
     post:
-      operationId: createStudent
-      description: Create a new student
+      operationId: createTeacher
+      description: Create a new Teacher
       requestBody:
         required: true
         content:
@@ -28,33 +33,96 @@ paths:
               properties:
                 id:
                   type: integer
-                  default : 1
                 name:
                   type: string
-                  default : "Kaïl"
-                birthdate:
+                cours:
                   type: string
-                  default: "29/02/2004"
+                code du cours: 
+                  type: string
+                durée du cours:
+                  type: string
+              example:
+              - id: 2
+                name:   Ryan
+                cours: API
+                code du cours: API
+                durée du cours: 2h/sem 
+              
       responses:
         '201':
-          description: Student created
+          description: Teacher added succesfuly
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/student"
-        '400':
-          description: Bad request
-components:
-  schemas:
-    student:
-      type: object
-      properties:
-        id:
-          type: integer
-          default : 1
-        name:
-          type: string
-          default : Kaïl
-        birthdate:
-          type: string
-          default : "29/02/2004"
+                type: object 
+                properties:
+                  id:
+                    type: integer
+                  name:
+                    type: string
+                  cours:
+                    type: string
+                  code du cours: 
+                    type: string
+                  durée du cours:
+                    type: string
+              example:
+                  - id: 2
+                    name: Lou
+                    cours: IA 
+                    code du cours: IA1
+                    durée du cours: 8h/an
+  /teacher/:
+    delete:
+          operationId: deleteTeacher
+          description: Delete a teacher
+          parameters: 
+          - in: path
+            name: id
+            required: true
+            schema:
+              type: integer
+          responses:
+            '200':
+              description: Teacher deleted succesfuly
+            '404':
+              description: Teacher not found
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                        example:  Teacher not found
+    put: 
+      description: Put a teacher
+      parameters: 
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Teacher found
+          content:
+            application/json:
+              example:
+                - id: 1
+                  name: Herilala
+                  cours: Base de données postgres
+                  code_du_cours: Données1
+                  durée_du_cours: 4h/jour
+        '404':
+          description: Teacher not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Teacher not found
+                      
+
